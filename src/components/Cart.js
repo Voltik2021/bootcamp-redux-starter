@@ -1,11 +1,20 @@
 import React, { PureComponent } from "react";
 import "../styles.css";
-
 import CartItem from './CartItem';
+import store from './redux/store';
 
 class Cart extends PureComponent {
   state = {
     cartGoods: []
+  }
+
+  componentDidMount() {
+    store.subscribe(() => {
+      let state = store.getState();
+      console.log(state.card)
+      this.setState({cartGoods:state.card}, console.log(state))
+    })
+    
   }
   getTotal() {
     const { cartGoods } = this.state;

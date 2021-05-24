@@ -1,8 +1,12 @@
-import React, { PureComponent } from "react";
-import "../styles.css";
+import React, { PureComponent } from 'react';
+import '../styles.css';
+import store from './redux/store';
+import {addToCart} from './redux/actionCreator';
+import {connect} from 'react-redux';
 
 
 class GoodsItem extends PureComponent {
+  
   render() {
     const { title, description, price, id } = this.props;
 
@@ -14,10 +18,16 @@ class GoodsItem extends PureComponent {
           <span className="goods-item__price-value goods-item__price-value_new">{price}.00$</span>
         </p>
         <p className="goods-item__description">{description}</p>
-        <button className="goods-item__add-to-card">Add to cart</button>
+        <button className="goods-item__add-to-card" onClick = {() => this.props.addCard(id)}>Add to cart</button>
       </div>
     );
   }
 }
 
-export default GoodsItem;
+let triam = (dispath) => {
+  return {
+    addCard: (id) => {dispath(addToCart(id))}
+  }
+}
+
+export default connect(() => {return{}}, triam)(GoodsItem);
